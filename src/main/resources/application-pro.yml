@@ -1,0 +1,8 @@
+#日志配置
+logging:
+  level:
+    root: info
+
+#容器配置    
+server:
+  port: 2038
