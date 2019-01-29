@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onyx.note.dao.NoteSyncMapper">
+
+    <select id="getAllNoteModel" resultType="com.onyx.note.entity.NoteModel">
+      SELECT * FROM notemodel;
+    </select>
+
+    <select id="getNoteModel" resultType="com.onyx.note.entity.NoteModel"
+            parameterType="com.onyx.note.entity.NoteModelParameter">
+      SELECT * FROM notemodel WHERE pin = #{pin} AND uniqueId = #{uniqueId};
+    </select>
+    <!-- useGeneratedKeys keyProperty parameterType 批量插入返回id要添加的 -->
+    <insert id="addNoteModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        /--不要批量的话去掉foreach就可以了--/
+        INSERT INTO notemodel
+        (createdAt,updatedAt,uniqueId,parentUniqueId,subPageName,title,extraAttributes,`type`,strokeWidth,
+        eraserWidth,noteBackground,strokeColor,currentShapeType,background,lineLayoutBackground,`position`,pageNameList,
+        pageOriginWidth,pageOriginHeight,source,pin,asyncStatus)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.createdAt},#{item.updatedAt},#{item.uniqueId},#{item.parentUniqueId},#{item.subPageName},#{item.title},
+            #{item.extraAttributes},#{item.type},#{item.strokeWidth},#{item.eraserWidth},#{item.noteBackground},
+            #{item.strokeColor},#{item.currentShapeType},#{item.background},#{item.lineLayoutBackground},#{item.position},
+            #{item.pageNameList},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
+        </foreach>
+        <!-- mysql插入数据后，获取id 批量插入中不能加下面的方法-->
+        <!--<selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>-->
+    </insert>
+
+    <delete id="deleteNoteModel">
+        DELETE FROM notemodel where pin = #{pin} AND uniqueId = #{uniqueId}
+    </delete>
+
+    <delete id="batchDeleteModel" parameterType="java.util.List">
+        DELETE FROM notemodel where uniqueId IN (
+        <foreach collection="list" item="uniqueId" separator=",">
+            #{uniqueId}
+        </foreach>
+        )
+    </delete>
+
+    <update id="updateNoteModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=",">
+            UPDATE notemodel
+            <set>
+                createdAt = #{item.createdAt},
+                updatedAt = #{item.updatedAt},
+                uniqueId = #{item.uniqueId},
+                parentUniqueId = #{item.parentUniqueId},
+                subPageName = #{item.subPageName},
+                title = #{item.title},
+                extraAttributes = #{item.extraAttributes},
+                `type` = #{item.type},
+                strokeWidth = #{item.strokeWidth},
+                eraserWidth = #{item.eraserWidth},
+                noteBackground = #{item.noteBackground},
+                strokeColor = #{item.strokeColor},
+                currentShapeType = #{item.currentShapeType},
+                lineLayoutBackground = #{item.lineLayoutBackground},
+                `position` = #{item.position},
+                pageNameList = #{item.pageNameList},
+                pageOriginWidth = #{item.pageOriginWidth},
+                pageOriginHeight = #{item.pageOriginHeight},
+                source = #{item.source},
+                pin = #{item.pin},
+                asyncStatus = #{item.asyncStatus}
+            </set>
+            where uniqueId = #{item.uniqueId} AND pin = #{item.pin}
+
+        </foreach>
+    </update>
+
+    <update id="addOrUpdateNoteModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        INSERT INTO notemodel
+        (createdAt,updatedAt,uniqueId,parentUniqueId,subPageName,title,extraAttributes,`type`,strokeWidth,
+        eraserWidth,noteBackground,strokeColor,currentShapeType,background,lineLayoutBackground,`position`,pageNameList,
+        pageOriginWidth,pageOriginHeight,source,pin,asyncStatus)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.createdAt},#{item.updatedAt},#{item.uniqueId},#{item.parentUniqueId},#{item.subPageName},#{item.title},
+            #{item.extraAttributes},#{item.type},#{item.strokeWidth},#{item.eraserWidth},#{item.noteBackground},
+            #{item.strokeColor},#{item.currentShapeType},#{item.background},#{item.lineLayoutBackground},#{item.position},
+            #{item.pageNameList},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        uniqueId = values(uniqueId),pin = values(pin)
+    </update>
+</mapper>

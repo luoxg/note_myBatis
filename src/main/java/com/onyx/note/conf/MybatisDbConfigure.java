@@ -26,7 +26,7 @@ public class MybatisDbConfigure {
     @Value(value = "${dataUserName:root}")
     private String dataUserName;
 
-    @Value(value = "${url:jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC}")
+    @Value(value = "${url:jdbc:mysql://localhost:3306/note_sync?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC}")
     private String url;
 
     @Value(value = "${passWord:root}")
