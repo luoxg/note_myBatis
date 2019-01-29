@@ -44,7 +44,7 @@ public class NoteSyncService {
         syncMapper.updateNoteModel(Arrays.asList(noteModel));
     }
 
-    public void addOrUpdateNoteModel(NoteModel noteModel) {
-        syncMapper.addOrUpdateNoteModel(Arrays.asList(noteModel));
+    public void addOrUpdateNoteModel(List<NoteModel> noteModel) {
+        syncMapper.addOrUpdateNoteModel(noteModel);
     }
 }

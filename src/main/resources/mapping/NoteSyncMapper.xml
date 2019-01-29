@@ -70,7 +70,6 @@
                 asyncStatus = #{item.asyncStatus}
             </set>
             where uniqueId = #{item.uniqueId} AND pin = #{item.pin}
-
         </foreach>
     </update>
 

@@ -7,10 +7,12 @@ import com.onyx.note.service.NoteSyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by User on 2019/1/29.
@@ -58,7 +60,7 @@ public class NoteSyncController {
     }
 
     @RequestMapping("/addOrUpdate")
-    public ResultReturn addOrUpdate(NoteModel noteModel) throws IOException {
+    public ResultReturn addOrUpdate(@RequestBody List<NoteModel> noteModel) throws IOException {
         syncService.addOrUpdateNoteModel(noteModel);
         return new ResultReturn();
     }
