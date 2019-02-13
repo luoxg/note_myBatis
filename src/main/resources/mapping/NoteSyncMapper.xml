@@ -7,13 +7,12 @@
       SELECT * FROM notemodel;
     </select>
 
-    <select id="getNoteModel" resultType="com.onyx.note.entity.NoteModel"
-            parameterType="com.onyx.note.entity.NoteModelParameter">
+    <select id="getNoteModel" resultType="com.onyx.note.entity.NoteModel">
       SELECT * FROM notemodel WHERE pin = #{pin} AND uniqueId = #{uniqueId};
     </select>
     <!-- useGeneratedKeys keyProperty parameterType 批量插入返回id要添加的 -->
     <insert id="addNoteModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
-        /--不要批量的话去掉foreach就可以了--/
+        <!-- 不要批量的话去掉foreach就可以了 -->
         INSERT INTO notemodel
         (createdAt,updatedAt,uniqueId,parentUniqueId,subPageName,title,extraAttributes,`type`,strokeWidth,
         eraserWidth,noteBackground,strokeColor,currentShapeType,background,lineLayoutBackground,`position`,pageNameList,

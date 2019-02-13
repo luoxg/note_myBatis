@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onyx.note.dao.ShapeSyncMapper">
+
+    <select id="getAllShapeModel" resultType="com.onyx.note.entity.ShapeModel">
+      SELECT * FROM newshapemodel;
+    </select>
+
+    <select id="getShapeModel" resultType="com.onyx.note.entity.ShapeModel">
+      SELECT * FROM newshapemodel WHERE shapeUniqueId = #{shapeUniqueId};
+    </select>
+    <!-- useGeneratedKeys keyProperty parameterType 批量插入返回id要添加的 -->
+    <insert id="addShapeModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        /--不要批量的话去掉foreach就可以了--/
+        INSERT INTO newshapemodel
+        (shapeUniqueId,createdAt,updatedAt,documentUniqueId,pageUniqueId,subPageName,appId,pageOriginWidth,pageOriginHeight,
+        color,thickness,zorder,points,boundingRect,matrixValues,textStyle,text,
+        shapeType,extraAttributes,groupId,layoutType,orientation,rotationPointXCoordinate,rotationPointYCoordinate)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.shapeUniqueId},#{item.createdAt},#{item.updatedAt},#{item.documentUniqueId},#{item.pageUniqueId},#{item.subPageName},
+            #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},
+            #{item.zorder},#{item.points,jdbcType=BLOB},#{item.boundingRect},#{item.matrixValues},#{item.textStyle},
+            #{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
+            #{rotationPointXCoordinate},#{rotationPointYCoordinate})
+        </foreach>
+        <!-- mysql插入数据后，获取id 批量插入中不能加下面的方法-->
+        <!--<selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>-->
+    </insert>
+
+    <delete id="deleteShapeModel">
+        DELETE FROM newshapemodel where shapeUniqueId = #{shapeUniqueId}
+    </delete>
+
+    <delete id="batchDeleteModel" parameterType="java.util.List">
+        DELETE FROM newshapemodel where shapeUniqueId IN (
+        <foreach collection="list" item="shapeUniqueId" separator=",">
+            #{shapeUniqueId}
+        </foreach>
+        )
+    </delete>
+
+    <update id="updateShapeModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=",">
+            UPDATE newshapemodel
+            <set>
+                shapeUniqueId = #{item.shapeUniqueId},
+                createdAt = #{item.createdAt},
+                updatedAt = #{item.updatedAt},
+                documentUniqueId = #{item.documentUniqueId},
+                pageUniqueId = #{item.pageUniqueId},
+                subPageName = #{item.subPageName},
+                appId = #{item.appId},
+                pageOriginWidth = #{item.pageOriginWidth},
+                pageOriginHeight = #{item.pageOriginHeight},
+                color = #{item.color},
+                thickness = #{item.thickness},
+                zorder = #{item.zorder},
+                points = #{item.points,jdbcType=BLOB},
+                boundingRect = #{item.boundingRect},
+                matrixValues = #{item.matrixValues},
+                textStyle = #{item.textStyle},
+                text = #{item.text},
+                shapeType = #{item.shapeType},
+                extraAttributes = #{item.extraAttributes},
+                groupId = #{item.groupId},
+                layoutType = #{item.layoutType},
+                orientation = #{item.orientation},
+                rotationPointXCoordinate = #{item.rotationPointXCoordinate},
+                rotationPointYCoordinate = #{item.rotationPointYCoordinate}
+            </set>
+            where shapeUniqueId = #{item.shapeUniqueId}
+        </foreach>
+    </update>
+
+    <update id="addOrUpdateShapeModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        INSERT INTO newshapemodel
+        (shapeUniqueId,createdAt,updatedAt,documentUniqueId,pageUniqueId,subPageName,appId,pageOriginWidth,pageOriginHeight,
+        color,thickness,zorder,points,boundingRect,matrixValues,textStyle,text,
+        shapeType,extraAttributes,groupId,layoutType,orientation,rotationPointXCoordinate,rotationPointYCoordinate)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.shapeUniqueId},#{item.createdAt},#{item.updatedAt},#{item.documentUniqueId},#{item.pageUniqueId},#{item.subPageName},
+            #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},
+            #{item.zorder},#{item.points,jdbcType=BLOB},#{item.boundingRect},#{item.matrixValues},#{item.textStyle},
+            #{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
+            #{rotationPointXCoordinate},#{rotationPointYCoordinate})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        shapeUniqueId = values(shapeUniqueId)
+    </update>
+</mapper>

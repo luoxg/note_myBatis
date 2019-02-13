@@ -22,13 +22,13 @@ public class NoteModel {
     private int type;
     private float strokeWidth;
     private float eraserWidth;
-    private JSONObject noteBackground = null;
+    private JSONObject noteBackground;
     private int strokeColor = 0;
     private int currentShapeType = -1;
     private int background;
     private int lineLayoutBackground;
     private int position;
-    private JSONObject pageNameList = null;
+    private JSONObject pageNameList;
     private float pageOriginWidth;
     private float pageOriginHeight;
     private String source = DEFAULT_SOURCE;

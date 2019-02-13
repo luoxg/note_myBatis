@@ -1,7 +1,6 @@
 package com.onyx.note.controller;
 
 import com.onyx.note.entity.NoteModel;
-import com.onyx.note.entity.NoteModelParameter;
 import com.onyx.note.entity.ResultReturn;
 import com.onyx.note.service.NoteSyncService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +31,17 @@ public class NoteSyncController {
     }
 
     @RequestMapping("/single")
-    public ResultReturn getNoteModel(NoteModelParameter parameter) throws IOException {
-        return new ResultReturn(syncService.getNoteModel(parameter));
+    public ResultReturn getNoteModel(String pin,  String uniqueId) throws IOException {
+        return new ResultReturn(syncService.getNoteModel(pin, uniqueId));
     }
 
-    @RequestMapping("/upload")
-    public ResultReturn addNoteModel(NoteModel noteModel) throws IOException {
+    @RequestMapping("/add")
+    public ResultReturn addNoteModel(@RequestBody NoteModel noteModel) throws IOException {
         return new ResultReturn(syncService.addNoteModel(noteModel));
     }
 
     @RequestMapping("/delete")
-    public ResultReturn addNoteModel(String pin, String uniqueId) throws IOException {
+    public ResultReturn deleteNoteModel(String pin, String uniqueId) throws IOException {
         syncService.deleteNoteModel(pin, uniqueId);
         return new ResultReturn();
     }
@@ -54,7 +53,7 @@ public class NoteSyncController {
     }
 
     @RequestMapping("/update")
-    public ResultReturn updateNoteModel(NoteModel noteModel) throws IOException {
+    public ResultReturn updateNoteModel(@RequestBody NoteModel noteModel) throws IOException {
         syncService.updateNoteModel(noteModel);
         return new ResultReturn();
     }

@@ -1,7 +1,6 @@
 package com.onyx.note.dao;
 
 import com.onyx.note.entity.NoteModel;
-import com.onyx.note.entity.NoteModelParameter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public interface NoteSyncMapper {
     List<NoteModel> getAllNoteModel();
-    NoteModel getNoteModel(NoteModelParameter parameter);
+    NoteModel getNoteModel(@Param("pin") String pin, @Param("uniqueId") String uniqueId);
     void addNoteModel(List<NoteModel> noteModels);
     void deleteNoteModel(@Param("pin") String pin, @Param("uniqueId") String uniqueId);
     void batchDeleteModel(List<String> uniqueIds);
