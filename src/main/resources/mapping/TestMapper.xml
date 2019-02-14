@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onyx.note.dao.TestMapper">
+
+  <resultMap id="resultMap" type="com.onyx.note.entity.TestData" >
+    <id column="id" property="id"/>
+    <result column="type" property="type"/>
+    <result column="name" property="name"/>
+    <result column="data" property="data" jdbcType="BLOB" typeHandler="com.onyx.note.handler.BlobTypeHandler"/>
+  </resultMap>
+
+  <select id="getAllData" resultMap="resultMap">
+    SELECT * FROM test;
+  </select>
+
+  <insert id="addTestData" useGeneratedKeys="true" keyProperty="id" parameterType="com.onyx.note.entity.TestData">
+    INSERT INTO test
+    (`name`,`data`)
+    VALUES
+    (#{name},#{data,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler})
+  </insert>
+</mapper>
