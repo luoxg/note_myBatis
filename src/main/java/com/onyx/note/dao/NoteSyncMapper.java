@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * Created by User on 2019/1/29.
+ * Created by lxg on 2019/1/29.
  */
 
 public interface NoteSyncMapper {

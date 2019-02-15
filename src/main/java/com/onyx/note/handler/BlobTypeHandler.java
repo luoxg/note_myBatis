@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.sql.*;
 
 /**
- * Created by User on 2019/2/14.
+ * Created by lxg on 2019/2/14.
  */
 public class BlobTypeHandler extends BaseTypeHandler<TouchPointList> {
 

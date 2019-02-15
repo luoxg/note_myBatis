@@ -1,7 +1,7 @@
 package com.onyx.note.entity;
 
 /**
- * Created by User on 2019/1/28.
+ * Created by lxg on 2019/1/28.
  */
 public class Person {
     private long id;
