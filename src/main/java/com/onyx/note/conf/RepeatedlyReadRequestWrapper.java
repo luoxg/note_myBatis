@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 /**
- * Created by Administrator on 2018/2/9.
+ * Created by lxg on 2018/2/9.
  */
 public class RepeatedlyReadRequestWrapper extends HttpServletRequestWrapper {
     private byte[] body;

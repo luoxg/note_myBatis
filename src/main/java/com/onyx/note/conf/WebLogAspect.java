@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * @author xianning
+ * @author lxg
  * 统一记录web下的某些接口的访问信息，用于后面统计
  */
 @Aspect
