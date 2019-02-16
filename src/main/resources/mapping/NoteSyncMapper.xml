@@ -85,6 +85,17 @@
             #{item.pageNameList},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
         </foreach>
         ON DUPLICATE KEY UPDATE
-        uniqueId = values(uniqueId),pin = values(pin)
+        createdAt = values(createdAt),updatedAt = values(updatedAt),
+        uniqueId = values(uniqueId),parentUniqueId = values(parentUniqueId),
+        subPageName = values(subPageName),title = values(title),
+        extraAttributes = values(extraAttributes),extraAttributes = values(extraAttributes),
+        `type` = values(`type`),strokeWidth = values(strokeWidth),
+        eraserWidth = values(eraserWidth),noteBackground = values(noteBackground),
+        strokeColor = values(strokeColor),currentShapeType = values(currentShapeType),
+        background = values(background),lineLayoutBackground = values(lineLayoutBackground),
+        `position` = values(`position`),pageNameList = values(pageNameList),
+        pageOriginWidth = values(pageOriginWidth),pageOriginHeight = values(pageOriginHeight),
+        source = values(source),pin = values(pin),
+        asyncStatus = values(asyncStatus)
     </update>
 </mapper>
