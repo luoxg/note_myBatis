@@ -2,6 +2,7 @@ package com.onyx.note.service;
 
 import com.onyx.note.dao.ShapeSyncMapper;
 import com.onyx.note.entity.ShapeModel;
+import com.onyx.note.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,10 @@ public class ShapeSyncService {
         syncMapper.updateShapeModel(Arrays.asList(shapeModel));
     }
 
-    public void addOrUpdateShapeModel(List<ShapeModel> shapeModel) {
-        syncMapper.addOrUpdateShapeModel(shapeModel);
+    public void addOrUpdateShapeModel(List<ShapeModel> shapeModels) {
+        if (CollectionUtils.isNullOrEmpty(shapeModels)) {
+            return;
+        }
+        syncMapper.addOrUpdateShapeModel(shapeModels);
     }
 }

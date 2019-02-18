@@ -1,8 +1,5 @@
 package com.onyx.note.entity;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
 import java.util.Date;
 
 /**
@@ -22,13 +19,13 @@ public class NoteModel {
     private int type;
     private float strokeWidth;
     private float eraserWidth;
-    private JSONObject noteBackground;
+    private NoteBackground noteBackground;
     private int strokeColor = 0;
     private int currentShapeType = -1;
     private int background;
     private int lineLayoutBackground;
     private int position;
-    private JSONObject pageNameList;
+    private PageNameList pageNameList;
     private float pageOriginWidth;
     private float pageOriginHeight;
     private String source = DEFAULT_SOURCE;
@@ -133,11 +130,11 @@ public class NoteModel {
         this.eraserWidth = eraserWidth;
     }
 
-    public String getNoteBackground() {
-        return JSON.toJSONString(noteBackground);
+    public NoteBackground getNoteBackground() {
+        return noteBackground;
     }
 
-    public void setNoteBackground(JSONObject noteBackground) {
+    public void setNoteBackground(NoteBackground noteBackground) {
         this.noteBackground = noteBackground;
     }
 
@@ -181,11 +178,11 @@ public class NoteModel {
         this.position = position;
     }
 
-    public String getPageNameList() {
-        return JSON.toJSONString(pageNameList);
+    public PageNameList getPageNameList() {
+        return pageNameList;
     }
 
-    public void setPageNameList(JSONObject pageNameList) {
+    public void setPageNameList(PageNameList pageNameList) {
         this.pageNameList = pageNameList;
     }
 

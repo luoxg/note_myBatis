@@ -3,11 +3,37 @@
 
 <mapper namespace="com.onyx.note.dao.NoteSyncMapper">
 
-    <select id="getAllNoteModel" resultType="com.onyx.note.entity.NoteModel">
+    <resultMap id="noteResultMap" type="com.onyx.note.entity.NoteModel" >
+        <id column="id" property="id"/>
+        <result column="createdAt" property="createdAt"/>
+        <result column="updatedAt" property="updatedAt"/>
+        <result column="uniqueId" property="uniqueId"/>
+        <result column="parentUniqueId" property="parentUniqueId"/>
+        <result column="subPageName" property="subPageName"/>
+        <result column="title" property="title"/>
+        <result column="extraAttributes" property="extraAttributes"/>
+        <result column="type" property="type"/>
+        <result column="strokeWidth" property="strokeWidth"/>
+        <result column="eraserWidth" property="eraserWidth"/>
+        <result column="noteBackground" property="noteBackground" jdbcType="VARCHAR" typeHandler="com.onyx.note.handler.NoteBackGroundTypeHandler"/>
+        <result column="strokeColor" property="strokeColor"/>
+        <result column="currentShapeType" property="currentShapeType"/>
+        <result column="background" property="background"/>
+        <result column="lineLayoutBackground" property="lineLayoutBackground"/>
+        <result column="position" property="position"/>
+        <result column="pageNameList" property="pageNameList" jdbcType="VARCHAR" typeHandler="com.onyx.note.handler.PageNameListTypeHandler"/>
+        <result column="pageOriginWidth" property="pageOriginWidth"/>
+        <result column="pageOriginHeight" property="pageOriginHeight"/>
+        <result column="source" property="source"/>
+        <result column="pin" property="pin"/>
+        <result column="asyncStatus" property="asyncStatus"/>
+    </resultMap>
+
+    <select id="getAllNoteModel" resultMap="noteResultMap">
       SELECT * FROM notemodel;
     </select>
 
-    <select id="getNoteModel" resultType="com.onyx.note.entity.NoteModel">
+    <select id="getNoteModel" resultMap="noteResultMap">
       SELECT * FROM notemodel WHERE pin = #{pin} AND uniqueId = #{uniqueId};
     </select>
     <!-- useGeneratedKeys keyProperty parameterType 批量插入返回id要添加的 -->
@@ -20,9 +46,11 @@
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.createdAt},#{item.updatedAt},#{item.uniqueId},#{item.parentUniqueId},#{item.subPageName},#{item.title},
-            #{item.extraAttributes},#{item.type},#{item.strokeWidth},#{item.eraserWidth},#{item.noteBackground},
-            #{item.strokeColor},#{item.currentShapeType},#{item.background},#{item.lineLayoutBackground},#{item.position},
-            #{item.pageNameList},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
+            #{item.extraAttributes},#{item.type},#{item.strokeWidth},#{item.eraserWidth},
+            #{item.noteBackground,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.NoteBackGroundTypeHandler},#{item.strokeColor},
+            #{item.currentShapeType},#{item.background},#{item.lineLayoutBackground},#{item.position},
+            #{item.pageNameList,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.PageNameListTypeHandler},#{item.pageOriginWidth},
+            #{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
         </foreach>
         <!-- mysql插入数据后，获取id 批量插入中不能加下面的方法-->
         <!--<selectKey keyProperty="id" resultType="long" order="AFTER">
@@ -56,12 +84,12 @@
                 `type` = #{item.type},
                 strokeWidth = #{item.strokeWidth},
                 eraserWidth = #{item.eraserWidth},
-                noteBackground = #{item.noteBackground},
+                noteBackground = #{item.noteBackground,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.NoteBackGroundTypeHandler},
                 strokeColor = #{item.strokeColor},
                 currentShapeType = #{item.currentShapeType},
                 lineLayoutBackground = #{item.lineLayoutBackground},
                 `position` = #{item.position},
-                pageNameList = #{item.pageNameList},
+                pageNameList = #{item.pageNameList,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.PageNameListTypeHandler},
                 pageOriginWidth = #{item.pageOriginWidth},
                 pageOriginHeight = #{item.pageOriginHeight},
                 source = #{item.source},
@@ -80,11 +108,13 @@
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.createdAt},#{item.updatedAt},#{item.uniqueId},#{item.parentUniqueId},#{item.subPageName},#{item.title},
-            #{item.extraAttributes},#{item.type},#{item.strokeWidth},#{item.eraserWidth},#{item.noteBackground},
+            #{item.extraAttributes},#{item.type},#{item.strokeWidth},#{item.eraserWidth},
+            #{item.noteBackground,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.NoteBackGroundTypeHandler},
             #{item.strokeColor},#{item.currentShapeType},#{item.background},#{item.lineLayoutBackground},#{item.position},
-            #{item.pageNameList},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
+            #{item.pageNameList,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.PageNameListTypeHandler},#{item.pageOriginWidth},
+            #{item.pageOriginHeight},#{item.source},#{item.pin},#{item.asyncStatus})
         </foreach>
         ON DUPLICATE KEY UPDATE
-        uniqueId = values(uniqueId),pin = values(pin)
+        uniqueId = values(uniqueId)
     </update>
 </mapper>

@@ -3,11 +3,38 @@
 
 <mapper namespace="com.onyx.note.dao.ShapeSyncMapper">
 
-    <select id="getAllShapeModel" resultType="com.onyx.note.entity.ShapeModel">
+    <resultMap id="shapeResultMap" type="com.onyx.note.entity.ShapeModel" >
+        <id column="id" property="id"/>
+        <result column="shapeUniqueId" property="shapeUniqueId"/>
+        <result column="createdAt" property="createdAt"/>
+        <result column="updatedAt" property="updatedAt"/>
+        <result column="documentUniqueId" property="documentUniqueId"/>
+        <result column="pageUniqueId" property="pageUniqueId"/>
+        <result column="subPageName" property="subPageName"/>
+        <result column="appId" property="appId"/>
+        <result column="pageOriginWidth" property="pageOriginWidth"/>
+        <result column="color" property="color"/>
+        <result column="thickness" property="thickness"/>
+        <result column="zorder" property="zorder"/>
+        <result column="points" property="points" jdbcType="BLOB" typeHandler="com.onyx.note.handler.BlobTypeHandler"/>
+        <result column="boundingRect" property="boundingRect"/>
+        <result column="matrixValues" property="matrixValues"/>
+        <result column="textStyle" property="textStyle"/>
+        <result column="text" property="text"/>
+        <result column="shapeType" property="shapeType"/>
+        <result column="extraAttributes" property="extraAttributes"/>
+        <result column="groupId" property="groupId"/>
+        <result column="layoutType" property="layoutType"/>
+        <result column="orientation" property="orientation"/>
+        <result column="rotationPointXCoordinate" property="rotationPointXCoordinate"/>
+        <result column="rotationPointYCoordinate" property="rotationPointYCoordinate"/>
+    </resultMap>
+
+    <select id="getAllShapeModel" resultMap="shapeResultMap">
       SELECT * FROM newshapemodel;
     </select>
 
-    <select id="getShapeModel" resultType="com.onyx.note.entity.ShapeModel">
+    <select id="getShapeModel" resultMap="shapeResultMap">
       SELECT * FROM newshapemodel WHERE shapeUniqueId = #{shapeUniqueId};
     </select>
     <!-- useGeneratedKeys keyProperty parameterType 批量插入返回id要添加的 -->
@@ -15,15 +42,15 @@
         /--不要批量的话去掉foreach就可以了--/
         INSERT INTO newshapemodel
         (shapeUniqueId,createdAt,updatedAt,documentUniqueId,pageUniqueId,subPageName,appId,pageOriginWidth,pageOriginHeight,
-        color,thickness,zorder,points,boundingRect,matrixValues,textStyle,text,
-        shapeType,extraAttributes,groupId,layoutType,orientation,rotationPointXCoordinate,rotationPointYCoordinate)
+        color,thickness,zorder,points,boundingRect,matrixValues,textStyle,text,shapeType,extraAttributes,groupId,layoutType,
+        orientation,rotationPointXCoordinate,rotationPointYCoordinate)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.shapeUniqueId},#{item.createdAt},#{item.updatedAt},#{item.documentUniqueId},#{item.pageUniqueId},#{item.subPageName},
-            #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},
-            #{item.zorder},#{item.points,jdbcType=BLOB},#{item.boundingRect},#{item.matrixValues},#{item.textStyle},
-            #{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
-            #{rotationPointXCoordinate},#{rotationPointYCoordinate})
+            #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},#{item.zorder},
+            #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},#{item.boundingRect},#{item.matrixValues},
+            #{item.textStyle},#{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},
+            #{item.orientation},#{rotationPointXCoordinate},#{rotationPointYCoordinate})
         </foreach>
         <!-- mysql插入数据后，获取id 批量插入中不能加下面的方法-->
         <!--<selectKey keyProperty="id" resultType="long" order="AFTER">
@@ -59,7 +86,7 @@
                 color = #{item.color},
                 thickness = #{item.thickness},
                 zorder = #{item.zorder},
-                points = #{item.points,jdbcType=BLOB},
+                points = #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},
                 boundingRect = #{item.boundingRect},
                 matrixValues = #{item.matrixValues},
                 textStyle = #{item.textStyle},
@@ -79,14 +106,14 @@
     <update id="addOrUpdateShapeModel" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
         INSERT INTO newshapemodel
         (shapeUniqueId,createdAt,updatedAt,documentUniqueId,pageUniqueId,subPageName,appId,pageOriginWidth,pageOriginHeight,
-        color,thickness,zorder,points,boundingRect,matrixValues,textStyle,text,
-        shapeType,extraAttributes,groupId,layoutType,orientation,rotationPointXCoordinate,rotationPointYCoordinate)
+        color,thickness,zorder,points,boundingRect,matrixValues,textStyle,text,shapeType,extraAttributes,groupId,layoutType,
+        orientation,rotationPointXCoordinate,rotationPointYCoordinate)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.shapeUniqueId},#{item.createdAt},#{item.updatedAt},#{item.documentUniqueId},#{item.pageUniqueId},#{item.subPageName},
-            #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},
-            #{item.zorder},#{item.points,jdbcType=BLOB},#{item.boundingRect},#{item.matrixValues},#{item.textStyle},
-            #{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
+            #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},#{item.zorder},
+            #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},#{item.boundingRect},#{item.matrixValues},
+            #{item.textStyle},#{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
             #{rotationPointXCoordinate},#{rotationPointYCoordinate})
         </foreach>
         ON DUPLICATE KEY UPDATE

@@ -1,6 +1,5 @@
 package com.onyx.note.entity;
 
-import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -22,7 +21,7 @@ public class ShapeModel{
     private int color;
     private float thickness;
     private int zorder;
-    private Blob points;
+    private TouchPointList points;
     private String boundingRect = null;
     private String matrixValues = null;
     private String textStyle;
@@ -142,11 +141,11 @@ public class ShapeModel{
         this.zorder = zorder;
     }
 
-    public Blob getPoints() {
+    public TouchPointList getPoints() {
         return points;
     }
 
-    public void setPoints(Blob points) {
+    public void setPoints(TouchPointList points) {
         this.points = points;
     }
 

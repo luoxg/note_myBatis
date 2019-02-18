@@ -2,6 +2,7 @@ package com.onyx.note.service;
 
 import com.onyx.note.dao.NoteSyncMapper;
 import com.onyx.note.entity.NoteModel;
+import com.onyx.note.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,10 @@ public class NoteSyncService {
         syncMapper.updateNoteModel(Arrays.asList(noteModel));
     }
 
-    public void addOrUpdateNoteModel(List<NoteModel> noteModel) {
-        syncMapper.addOrUpdateNoteModel(noteModel);
+    public void addOrUpdateNoteModel(List<NoteModel> noteModels) {
+        if (CollectionUtils.isNullOrEmpty(noteModels)) {
+            return;
+        }
+        syncMapper.addOrUpdateNoteModel(noteModels);
     }
 }
