@@ -117,6 +117,16 @@
             #{rotationPointXCoordinate},#{rotationPointYCoordinate})
         </foreach>
         ON DUPLICATE KEY UPDATE
-        shapeUniqueId = values(shapeUniqueId)
+        shapeUniqueId = values(shapeUniqueId),createdAt = values(createdAt),
+        updatedAt = values(updatedAt),documentUniqueId = values(documentUniqueId),
+        pageUniqueId = values(pageUniqueId),pageOriginWidth = values(pageOriginWidth),
+        pageOriginHeight = values(pageOriginHeight),color = values(color),
+        thickness = values(thickness),zorder = values(zorder),
+        points = values(points),boundingRect = values(boundingRect),
+        matrixValues = values(matrixValues),textStyle = values(textStyle),
+        text = values(text),shapeType = values(shapeType),
+        extraAttributes = values(extraAttributes),groupId = values(groupId),
+        layoutType = values(layoutType),orientation = values(orientation),
+        rotationPointXCoordinate = values(rotationPointXCoordinate),rotationPointYCoordinate = values(rotationPointYCoordinate)
     </update>
 </mapper>
