@@ -36,8 +36,11 @@ public class ShapeSyncService {
         syncMapper.deleteShapeModel(shapeUniqueId);
     }
 
-    public void batchDeleteModel(String shapeUniqueId) {
-        syncMapper.batchDeleteModel(Arrays.asList(shapeUniqueId));
+    public void batchDeleteModel(List<String> shapeUniqueIds) {
+        if (CollectionUtils.isNullOrEmpty(shapeUniqueIds)) {
+            return;
+        }
+        syncMapper.batchDeleteModel(shapeUniqueIds);
     }
 
     public void updateShapeModel(ShapeModel shapeModel) {

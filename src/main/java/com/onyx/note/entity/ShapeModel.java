@@ -22,9 +22,9 @@ public class ShapeModel{
     private float thickness;
     private int zorder;
     private TouchPointList points;
-    private String boundingRect = null;
-    private String matrixValues = null;
-    private String textStyle;
+    private RectF boundingRect = null;
+    private MatrixValues matrixValues = null;
+    private ShapeTextStyle textStyle;
     private String text;
     private int shapeType;
     private String extraAttributes;
@@ -149,27 +149,27 @@ public class ShapeModel{
         this.points = points;
     }
 
-    public String getBoundingRect() {
+    public RectF getBoundingRect() {
         return boundingRect;
     }
 
-    public void setBoundingRect(String boundingRect) {
+    public void setBoundingRect(RectF boundingRect) {
         this.boundingRect = boundingRect;
     }
 
-    public String getMatrixValues() {
+    public MatrixValues getMatrixValues() {
         return matrixValues;
     }
 
-    public void setMatrixValues(String matrixValues) {
+    public void setMatrixValues(MatrixValues matrixValues) {
         this.matrixValues = matrixValues;
     }
 
-    public String getTextStyle() {
+    public ShapeTextStyle getTextStyle() {
         return textStyle;
     }
 
-    public void setTextStyle(String textStyle) {
+    public void setTextStyle(ShapeTextStyle textStyle) {
         this.textStyle = textStyle;
     }
 

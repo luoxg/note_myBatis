@@ -30,11 +30,7 @@ public class SerializationUtils {
                 dout.writeLong(p.getTimestamp());
             }
             byte[] bytes = bout.toByteArray();
-            PipedInputStream pipedInputStream = new PipedInputStream();
-            PipedOutputStream pipedOutputStream = new PipedOutputStream();
-            pipedInputStream.connect(pipedOutputStream);
-            pipedOutputStream.write(bytes, 0, bytes.length);
-            return new DataInputStream(pipedInputStream);
+            return new ByteArrayInputStream(bytes);
         } catch (Throwable tr) {
             tr.printStackTrace();
         } finally {

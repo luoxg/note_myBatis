@@ -17,9 +17,9 @@
         <result column="thickness" property="thickness"/>
         <result column="zorder" property="zorder"/>
         <result column="points" property="points" jdbcType="BLOB" typeHandler="com.onyx.note.handler.BlobTypeHandler"/>
-        <result column="boundingRect" property="boundingRect"/>
-        <result column="matrixValues" property="matrixValues"/>
-        <result column="textStyle" property="textStyle"/>
+        <result column="boundingRect" property="boundingRect" jdbcType="VARCHAR" typeHandler="com.onyx.note.handler.RectFTypeHandler"/>
+        <result column="matrixValues" property="matrixValues" jdbcType="VARCHAR" typeHandler="com.onyx.note.handler.MatrixValuesTypeHandler"/>
+        <result column="textStyle" property="textStyle" jdbcType="VARCHAR" typeHandler="com.onyx.note.handler.ShapeTextStyleTypeHandler"/>
         <result column="text" property="text"/>
         <result column="shapeType" property="shapeType"/>
         <result column="extraAttributes" property="extraAttributes"/>
@@ -48,9 +48,12 @@
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.shapeUniqueId},#{item.createdAt},#{item.updatedAt},#{item.documentUniqueId},#{item.pageUniqueId},#{item.subPageName},
             #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},#{item.zorder},
-            #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},#{item.boundingRect},#{item.matrixValues},
-            #{item.textStyle},#{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},
-            #{item.orientation},#{rotationPointXCoordinate},#{rotationPointYCoordinate})
+            #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},
+            #{item.boundingRect,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.RectFTypeHandler},
+            #{item.matrixValues,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.MatrixValuesTypeHandler},
+            #{item.textStyle,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.ShapeTextStyleTypeHandler},
+            #{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},
+            #{item.orientation},#{item.rotationPointXCoordinate},#{item.rotationPointYCoordinate})
         </foreach>
         <!-- mysql插入数据后，获取id 批量插入中不能加下面的方法-->
         <!--<selectKey keyProperty="id" resultType="long" order="AFTER">
@@ -87,9 +90,9 @@
                 thickness = #{item.thickness},
                 zorder = #{item.zorder},
                 points = #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},
-                boundingRect = #{item.boundingRect},
-                matrixValues = #{item.matrixValues},
-                textStyle = #{item.textStyle},
+                boundingRect = #{item.boundingRect,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.RectFTypeHandler},
+                matrixValues = #{item.matrixValues,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.MatrixValuesTypeHandler},
+                textStyle = #{item.textStyle,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.ShapeTextStyleTypeHandler},
                 text = #{item.text},
                 shapeType = #{item.shapeType},
                 extraAttributes = #{item.extraAttributes},
@@ -112,9 +115,12 @@
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.shapeUniqueId},#{item.createdAt},#{item.updatedAt},#{item.documentUniqueId},#{item.pageUniqueId},#{item.subPageName},
             #{item.appId},#{item.pageOriginWidth},#{item.pageOriginHeight},#{item.color},#{item.thickness},#{item.zorder},
-            #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},#{item.boundingRect},#{item.matrixValues},
-            #{item.textStyle},#{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
-            #{rotationPointXCoordinate},#{rotationPointYCoordinate})
+            #{item.points,jdbcType=BLOB,typeHandler=com.onyx.note.handler.BlobTypeHandler},
+            #{item.boundingRect,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.RectFTypeHandler},
+            #{item.matrixValues,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.MatrixValuesTypeHandler},
+            #{item.textStyle,jdbcType=VARCHAR,typeHandler=com.onyx.note.handler.ShapeTextStyleTypeHandler},
+            #{item.text},#{item.shapeType},#{item.extraAttributes},#{item.groupId},#{item.layoutType},#{item.orientation},
+            #{item.rotationPointXCoordinate},#{item.rotationPointYCoordinate})
         </foreach>
         ON DUPLICATE KEY UPDATE
         shapeUniqueId = values(shapeUniqueId),createdAt = values(createdAt),

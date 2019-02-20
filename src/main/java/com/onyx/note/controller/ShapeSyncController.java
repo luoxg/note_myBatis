@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public class ShapeSyncController {
 
     @RequestMapping("/batchDelete")
     public ResultReturn batchDeleteModel(String shapeUniqueId) throws IOException {
-        syncService.batchDeleteModel(shapeUniqueId);
+        syncService.batchDeleteModel(Arrays.asList(shapeUniqueId));
         return new ResultReturn();
     }
 
