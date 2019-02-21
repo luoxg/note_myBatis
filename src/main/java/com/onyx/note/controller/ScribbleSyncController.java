@@ -1,5 +1,7 @@
 package com.onyx.note.controller;
 
+import com.onyx.note.entity.NoteModel;
+import com.onyx.note.entity.NoteSyncModel;
 import com.onyx.note.entity.ResultReturn;
 import com.onyx.note.entity.ScribbleSyncModel;
 import com.onyx.note.service.NoteSyncService;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by lxg on 2019/2/20.
@@ -35,6 +39,19 @@ public class ScribbleSyncController {
             shapeSyncService.batchDeleteModel(syncModel.getDelShapeUniqueIDs());
         }
         return new ResultReturn();
+    }
+
+    @RequestMapping("/download")
+    public ResultReturn download() throws IOException {
+        List<ScribbleSyncModel> syncModels = new ArrayList<>();
+        List<NoteModel> allNoteModel = noteSyncService.getAllNoteModel();
+        for (NoteModel noteModel : allNoteModel) {
+            ScribbleSyncModel syncModel = new ScribbleSyncModel();
+            syncModel.setNoteSyncModel(new NoteSyncModel(noteModel));
+            syncModel.setAddShapeSyncModels(shapeSyncService.getShapeModels(noteModel.getUniqueId()));
+            syncModels.add(syncModel);
+        }
+        return new ResultReturn(syncModels);
     }
 
     private boolean checkRequestBody(ScribbleSyncModel syncModel) {

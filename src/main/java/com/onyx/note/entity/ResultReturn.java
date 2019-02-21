@@ -6,60 +6,51 @@ package com.onyx.note.entity;
  * 2018年1月5日
  */
 public class ResultReturn {
-	public static final String SUCCESS = "success";//操作成功
-	public static final String FAILURE = "failure";//操作失败
+	public static final int SUCCESS = 0;//操作成功
+	public static final int FAILURE = 1;//操作失败
 
-	private String operationResult;//操作结果标识
+	private int result_code;
+
+	private String message;//操作失败描述
 	
-	private String failureMsg;//操作失败描述
-	
-	private Object responseList;//请求返回值
+	private Object data;//请求返回值
 	
 	public ResultReturn() {
 		super();
-		this.operationResult = ResultReturn.SUCCESS;
+		this.result_code = ResultReturn.SUCCESS;
 	}
 	
-	public ResultReturn(Object responseList) {
+	public ResultReturn(Object data) {
 		super();
-		this.operationResult = ResultReturn.SUCCESS;
-		this.responseList = responseList;
-	}
-	
-	public ResultReturn(String operationResult, String failureMsg) {
-		super();
-		this.operationResult = operationResult;
-		this.failureMsg = failureMsg;
+		this.result_code = ResultReturn.SUCCESS;
+		this.data = data;
 	}
 
-	public ResultReturn(String operationResult, String failureMsg, Object responseList) {
-		super();
-		this.operationResult = operationResult;
-		this.failureMsg = failureMsg;
-		this.responseList = responseList;
+	public ResultReturn(int result_code) {
+		this.result_code = result_code;
 	}
 
-	public String getOperationResult() {
-		return operationResult;
+	public int getResult_code() {
+		return result_code;
 	}
 
-	public void setOperationResult(String operationResult) {
-		this.operationResult = operationResult;
+	public void setResult_code(int result_code) {
+		this.result_code = result_code;
 	}
 
-	public String getFailureMsg() {
-		return failureMsg;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setFailureMsg(String failureMsg) {
-		this.failureMsg = failureMsg;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
-	public Object getResponseList() {
-		return responseList;
+	public Object getData() {
+		return data;
 	}
 
-	public void setResponseList(Object responseList) {
-		this.responseList = responseList;
+	public void setData(Object data) {
+		this.data = data;
 	}
 }

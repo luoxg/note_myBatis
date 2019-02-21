@@ -27,6 +27,10 @@ public class ShapeSyncService {
         return syncMapper.getShapeModel(shapeUniqueId);
     }
 
+    public List<ShapeModel> getShapeModels(String documentUniqueId) {
+        return syncMapper.getShapeModels(documentUniqueId);
+    }
+
     public long addShapeModel(ShapeModel shapeModel) {
         syncMapper.addShapeModel(Arrays.asList(shapeModel));
         return shapeModel.getId();

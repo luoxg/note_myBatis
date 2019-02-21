@@ -12,6 +12,7 @@ import java.util.List;
 public interface ShapeSyncMapper {
     List<ShapeModel> getAllShapeModel();
     ShapeModel getShapeModel(@Param("shapeUniqueId") String shapeUniqueId);
+    List<ShapeModel> getShapeModels(@Param("documentUniqueId") String documentUniqueId);
     void addShapeModel(List<ShapeModel> noteModels);
     void deleteShapeModel(@Param("shapeUniqueId") String shapeUniqueId);
     void batchDeleteModel(List<String> shapeUniqueIds);
