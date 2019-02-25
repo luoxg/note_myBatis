@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
@@ -42,6 +43,12 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registration.setFilter(repeatedlyReadFilter);
         registration.addUrlPatterns("/user/*");
         return registration;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/upload/*").addResourceLocations("file:e:/upload/");
+        super.addResourceHandlers(registry);
     }
 
     /**
