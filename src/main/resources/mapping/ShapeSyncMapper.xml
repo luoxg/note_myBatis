@@ -139,4 +139,17 @@
         layoutType = values(layoutType),orientation = values(orientation),
         rotationPointXCoordinate = values(rotationPointXCoordinate),rotationPointYCoordinate = values(rotationPointYCoordinate)
     </update>
+
+    <delete id="deleteByDocumentUniqueId">
+        DELETE FROM newshapemodel where documentUniqueId = #{documentUniqueId}
+    </delete>
+
+    <delete id="deleteByDocumentUniqueIds" parameterType="java.util.List">
+        DELETE FROM newshapemodel where documentUniqueId IN (
+        <foreach collection="list" item="documentUniqueId" separator=",">
+            #{documentUniqueId}
+        </foreach>
+        )
+    </delete>
+
 </mapper>

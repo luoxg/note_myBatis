@@ -32,12 +32,12 @@ public class NoteSyncService {
         return noteModel.getId();
     }
 
-    public void deleteNoteModel(String pin, String uniqueId) {
-        syncMapper.deleteNoteModel(pin, uniqueId);
+    public void deleteNoteModel(String uniqueId) {
+        syncMapper.deleteNoteModel(uniqueId);
     }
 
-    public void batchDeleteModel(String uniqueId) {
-        syncMapper.batchDeleteModel(Arrays.asList(uniqueId));
+    public void batchDeleteModel(List<String> uniqueIds) {
+        syncMapper.batchDeleteModel(uniqueIds);
     }
 
     public void updateNoteModel(NoteModel noteModel) {
@@ -49,5 +49,12 @@ public class NoteSyncService {
             return;
         }
         syncMapper.addOrUpdateNoteModel(noteModels);
+    }
+
+    public void addOrUpdateNoteModel(NoteModel noteModel) {
+        if (noteModel == null) {
+            return;
+        }
+        syncMapper.addOrUpdateNoteModel(Arrays.asList(noteModel));
     }
 }

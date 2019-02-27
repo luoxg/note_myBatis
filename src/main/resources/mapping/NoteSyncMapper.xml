@@ -59,7 +59,7 @@
     </insert>
 
     <delete id="deleteNoteModel">
-        DELETE FROM notemodel where pin = #{pin} AND uniqueId = #{uniqueId}
+        DELETE FROM notemodel where uniqueId = #{uniqueId}
     </delete>
 
     <delete id="batchDeleteModel" parameterType="java.util.List">

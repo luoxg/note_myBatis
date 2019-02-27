@@ -1,18 +1,18 @@
 package com.onyx.note.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.onyx.note.entity.NoteModel;
-import com.onyx.note.entity.ResultReturn;
-import com.onyx.note.entity.UploadRequestBean;
+import com.onyx.note.entity.*;
 import com.onyx.note.service.NoteSyncService;
+import com.onyx.note.service.ShapeSyncService;
+import com.onyx.note.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lxg on 2019/2/22.
@@ -20,35 +20,61 @@ import java.io.IOException;
 
 @EnableAutoConfiguration
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/note")
 public class NoteApiController {
 
     @Autowired
     private NoteSyncService syncService;
+    @Autowired
+    private ShapeSyncService shapeSyncService;
 
-    @RequestMapping("/note/upload")
-    public ResultReturn upload(MultipartFile file, UploadRequestBean requestBean) throws IOException {
-        NoteModel noteModel = JSON.parseObject(requestBean.getNotemodel(), NoteModel.class);
-        NoteModel model = syncService.getNoteModel(noteModel.getPin(), noteModel.getUniqueId());
-        if (noteModel == null) {
-            return new ResultReturn(ResultReturn.FAILURE);
+    @RequestMapping("/upload")
+    public ResultReturn upload(@RequestBody UploadNoteRequestBean requestBean) throws IOException {
+        if (!checkRequestBody(requestBean)) {
+            return new ResultReturn(ResultReturn.FAILURE, "没有上传数据");
         }
-        if (model == null) {
-            syncService.addNoteModel(noteModel);
-        } else {
-            syncService.updateNoteModel(noteModel);
+        syncService.addOrUpdateNoteModel(requestBean.getNoteModel());
+        UploadNoteRequestBean.ShapeData shapeData = requestBean.getShapeData();
+        if (shapeData != null) {
+            shapeSyncService.addOrUpdateShapeModel(shapeData.getAdd());
+            shapeSyncService.batchDeleteModel(shapeData.getDel());
         }
-        file.transferTo(getFilePath(file.getOriginalFilename()));
         return new ResultReturn();
     }
 
-
-    @RequestMapping("/note/download")
+    @RequestMapping("/download")
     public ResultReturn download() throws IOException {
-        return new ResultReturn(syncService.getAllNoteModel());
+        List<DownloadNoteResultData> resultBeans = new ArrayList<>();
+        List<NoteModel> allNoteModel = syncService.getAllNoteModel();
+        for (NoteModel noteModel : allNoteModel) {
+            DownloadNoteResultData resultBean = new DownloadNoteResultData();
+            resultBean.setNoteModel(noteModel);
+            List<ShapeModel> shapeModels = shapeSyncService.getShapeModels(noteModel.getUniqueId());
+            DownloadNoteResultData.ShapeData data = new DownloadNoteResultData.ShapeData();
+            data.setAdd(shapeModels);
+            resultBean.setShapeData(data);
+            resultBeans.add(resultBean);
+        }
+        return new ResultReturn(resultBeans);
     }
 
-    private File getFilePath(String name) {
-        return new File("e:/upload/" + name);
+    @RequestMapping("/delete")
+    public ResultReturn delete(@RequestBody List<String> uniqueIDs) throws IOException {
+        if (CollectionUtils.isNullOrEmpty(uniqueIDs)) {
+            return new ResultReturn();
+        }
+        syncService.batchDeleteModel(uniqueIDs);
+        shapeSyncService.deleteByDocumentUniqueId(uniqueIDs);
+        return new ResultReturn();
+    }
+
+    private boolean checkRequestBody(UploadNoteRequestBean requestBean) {
+        if (requestBean == null) {
+            return false;
+        }
+        if (requestBean.getNoteModel() == null) {
+            return false;
+        }
+        return true;
     }
 }

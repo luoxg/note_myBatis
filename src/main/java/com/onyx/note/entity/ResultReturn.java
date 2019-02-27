@@ -30,6 +30,11 @@ public class ResultReturn {
 		this.result_code = result_code;
 	}
 
+	public ResultReturn(int result_code, String message) {
+		this.result_code = result_code;
+		this.message = message;
+	}
+
 	public int getResult_code() {
 		return result_code;
 	}

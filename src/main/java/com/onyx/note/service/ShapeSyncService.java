@@ -3,6 +3,7 @@ package com.onyx.note.service;
 import com.onyx.note.dao.ShapeSyncMapper;
 import com.onyx.note.entity.ShapeModel;
 import com.onyx.note.utils.CollectionUtils;
+import com.onyx.note.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,19 @@ public class ShapeSyncService {
             return;
         }
         syncMapper.addOrUpdateShapeModel(shapeModels);
+    }
+
+    public void deleteByDocumentUniqueId(String documentUniqueId) {
+        if (StringUtils.isNullOrEmpty(documentUniqueId)) {
+            return;
+        }
+        syncMapper.deleteByDocumentUniqueId(documentUniqueId);
+    }
+
+    public void deleteByDocumentUniqueId(List<String> documentUniqueIds) {
+        if (CollectionUtils.isNullOrEmpty(documentUniqueIds)) {
+            return;
+        }
+        syncMapper.deleteByDocumentUniqueIds(documentUniqueIds);
     }
 }

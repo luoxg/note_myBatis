@@ -18,4 +18,6 @@ public interface ShapeSyncMapper {
     void batchDeleteModel(List<String> shapeUniqueIds);
     void updateShapeModel(List<ShapeModel> shapeModels);
     void addOrUpdateShapeModel(List<ShapeModel> shapeModels);
+    void deleteByDocumentUniqueId(@Param("documentUniqueId") String documentUniqueId);
+    void deleteByDocumentUniqueIds(List<String> documentUniqueIds);
 }

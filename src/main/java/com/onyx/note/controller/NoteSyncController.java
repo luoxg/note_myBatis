@@ -41,14 +41,14 @@ public class NoteSyncController {
     }
 
     @RequestMapping("/delete")
-    public ResultReturn deleteNoteModel(String pin, String uniqueId) throws IOException {
-        syncService.deleteNoteModel(pin, uniqueId);
+    public ResultReturn deleteNoteModel(String uniqueId) throws IOException {
+        syncService.deleteNoteModel(uniqueId);
         return new ResultReturn();
     }
 
     @RequestMapping("/batchDelete")
-    public ResultReturn batchDeleteModel(String uniqueId) throws IOException {
-        syncService.batchDeleteModel(uniqueId);
+    public ResultReturn batchDeleteModel(List<String> uniqueIds) throws IOException {
+        syncService.batchDeleteModel(uniqueIds);
         return new ResultReturn();
     }
 

@@ -13,7 +13,7 @@ public interface NoteSyncMapper {
     List<NoteModel> getAllNoteModel();
     NoteModel getNoteModel(@Param("pin") String pin, @Param("uniqueId") String uniqueId);
     void addNoteModel(List<NoteModel> noteModels);
-    void deleteNoteModel(@Param("pin") String pin, @Param("uniqueId") String uniqueId);
+    void deleteNoteModel(@Param("uniqueId") String uniqueId);
     void batchDeleteModel(List<String> uniqueIds);
     void updateNoteModel(List<NoteModel> noteModels);
     void addOrUpdateNoteModel(List<NoteModel> noteModels);
